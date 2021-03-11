@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title></title>
+<script src="link.json.js"></script>
+<script type="text/javascript">
+
+function outToConsole(){
+  for(lpa=0; lpa<list.length; lpa++){
+    console.log("columnA = " + list[lpa]["columnA"]);
+    console.log("columnB = " + list[lpa]["columnB"]);
+    console.log("columnC = " + list[lpa]["columnC"]);
+    for(lpd=0; lpd<list[lpa]["columnD"].length; lpd++){
+      console.log("lpd = "+ lpd + ", lpd = " + lpd +", columnD = " + list[lpa]["columnD"][lpd]);
+    }
+    for(lpe=0; lpe<list[lpa]["columnE"].length; lpe++){
+      console.log("lpa = "+ lpa + ", lpe = " + lpe +", columnE = " + list[lpa]["columnE"][lpe]);
+    }
+    for(lpf=0; lpf<list[lpa]["columnF"].length; lpf++){
+      console.log("lpa = "+ lpa + ", lpf = " + lpf +", columnF = " + list[lpa]["columnF"][lpf]);
+    }
+  }
+  document.getElementById("Area01").innerHTML = "<h1>コンソールに出力しました(console.log)</h1>";
+}
+
+function outToDiv(argHead){
+  wStr = "";
+  wStr += "<P><B>ーーJSONデータを出力 ("+argHead+") ーー</B></P>";
+  for(lpa=0; lpa<list.length; lpa++){
+    wStr += "columnA = " + list[lpa]["columnA"] +"<BR />";
+    wStr += "columnB = " + list[lpa]["columnB"] +"<BR />";
+    wStr += "columnC = " + list[lpa]["columnC"] +"<BR />";
+    for(lpd=0; lpd<list[lpa]["columnD"].length; lpd++){
+      wStr += "columnD-"+ lpd +" = " + list[lpa]["columnD"][lpd] +"<BR />";
+    }
+    for(lpe=0; lpe<list[lpa]["columnE"].length; lpe++){
+      wStr += "columnE-"+ lpe +" = " + list[lpa]["columnE"][lpe] +"<BR />";
+    }
+    for(lpf=0; lpf<list[lpa]["columnF"].length; lpf++){
+      wStr += "columnF-"+ lpf +" = " + list[lpa]["columnF"][lpf] +"<BR />";
+    }
+  }
+  document.getElementById("Area01").innerHTML = wStr;
+}
+
+function outToDiv_Filtered(){
+  wStr = "";
+  const cVal = document.getElementById("txt03").value;
+  wStr += "<P><B>■cloumnC が " + cVal + " より大きいデータのみ表示■</B></P>";
+  let cFlg = 0;
+  for(lpa=0; lpa<list.length; lpa++){
+    if(list[lpa]["columnC"] >= cVal ) cFlg = 1;
+    if(cFlg == 1)
+    {
+      wStr += "columnA = " + list[lpa]["columnA"] +"<BR />";
+      wStr += "columnB = " + list[lpa]["columnB"] +"<BR />";
+      wStr += "<B><font color='red'>columnC = " + list[lpa]["columnC"] +"</font></B><BR />";
+      for(lpd=0; lpd<list[lpa]["columnD"].length; lpd++){
+        wStr += "columnD-"+ lpd +" = " + list[lpa]["columnD"][lpd] +"<BR />";
+      }
+      for(lpe=0; lpe<list[lpa]["columnE"].length; lpe++){
+        wStr += "columnE-"+ lpe +" = " + list[lpa]["columnE"][lpe] +"<BR />";
+      }
+      for(lpf=0; lpf<list[lpa]["columnF"].length; lpf++){
+        wStr += "columnF-"+ lpf +" = " + list[lpa]["columnF"][lpf] +"<BR />";
+      }
+    }
+    cFlg = 0;
+  }
+  document.getElementById("Area01").innerHTML = wStr;
+}
+
+function ascendingSortC(){ //昇順ソート
+  list.sort(function(a,b){
+      if(a.columnC < b.columnC) return -1;
+      if(a.columnC > b.columnC) return 1;
+      return 0;
+  });
+  outToConsole();
+  outToDiv("昇順");
+}
+
+function descendingSortC(){ //降順ソート
+  list.sort(function(a,b){
+      if(a.columnC > b.columnC) return -1;
+      if(a.columnC < b.columnC) return 1;
+      return 0;
+  });
+  outToConsole();
+  outToDiv("降順");
+}
+
+function countWord(){
+  let words = new Array();
+  let wdcount = {};
+  let wstr = "";
+  wStr += "<P><B>ーーcolumnFの単語をカウントーー</B></P>";
+  for(lpa=0; lpa<list.length; lpa++){
+    for(lpf=0; lpf<list[lpa]["columnF"].length; lpf++){
+      words.push(list[lpa]["columnF"][lpf]);
+    }
+    for (let i = 0; i < words.length; i++) {
+      let elm = words[i];
+      wdcount[elm] = (wdcount[elm] || 0) + 1;
+    }
+  }
+  
+  for (let o in wdcount) {
+    console.log("o = "+ o + ", " + wdcount[o]);
+  }
+  console.log("----");
+
+  // キーと値にそれぞれキーをつけた連想配列を格納した配列の作成
+  arr = Object.keys(wdcount).map((e)=>({key:e,value:wdcount[e]}))
+  console.log("====");
+  for (let o in arr) {
+    console.log("o = "+ o + ", " + arr[o].key + ", " + arr[o].value);
+  }
+
+  /////////////////////////////////////////////////////////
+  // カウント降順
+  console.log("==== カウント降順 ====");
+  wStr += "<P><B>==== カウント降順 ====</B></P>";
+
+  arr.sort(function(a,b){
+  if(a.value < b.value) return 1;
+  if(a.value > b.value) return -1;
+    return 0;
+  });
+  for (let o in arr) {
+    console.log("o = "+ o + ", " + arr[o].key + ", " + arr[o].value);
+    wstr += "key = " + arr[o].key + " カウント(" + arr[o].value + ")<BR />";
+  }
+
+  /////////////////////////////////////////////////////////
+  // カウント昇順
+  console.log("--- カウント昇順 ---");
+  wStr += "<P><B>==== カウント昇順 ====</B></P>";
+
+  arr.sort(function(a,b){
+  if(a.value > b.value) return 1;
+  if(a.value < b.value) return -1;
+    return 0;
+  });
+  for (let o in arr) {
+    console.log("o = "+ o + ", " + arr[o].key + ", " + arr[o].value);
+    wstr += "key = " + arr[o].key + " カウント(" + arr[o].value + ")<BR />";
+  }
+
+  /////////////////////////////////////////////////////////
+  // あいうえお順、アルファベット順
+  console.log("=-= あいうえお／アルファベット順 =-=");
+  wstr += "<BR />=-= あいうえお／アルファベット順 =-=<BR />";
+
+  arr.sort(function(a,b){
+    if(a.key > b.key) return 1;
+    if(a.key < b.key) return -1;
+      return 0;
+  });
+  for (let o in arr) {
+    console.log("o = "+ o + ", " + arr[o].key + ", " + arr[o].value);
+    wstr += "key = " + arr[o].key + " カウント(" + arr[o].value + ")<BR />";
+  }
+
+  /////////////////////////////////////////////////////////
+  // あいうえお／アルファベット逆順
+  console.log("＿＿ーー あいうえお／アルファベット逆順 ーー＿＿");
+  wstr += "<BR />＿＿ーー あいうえお／アルファベット逆順 ーー＿＿<BR />";
+
+  arr.sort(function(a,b){
+  if(a.key < b.key) return 1;
+  if(a.key > b.key) return -1;
+    return 0;
+  });
+  for (let o in arr) {
+    console.log("o = "+ o + ", " + arr[o].key + ", " + arr[o].value);
+    wstr += "key = " + arr[o].key + " カウント(" + arr[o].value + ")<BR />";
+  }
+  document.getElementById("Area01").innerHTML = wstr;
+}
+
+</script>
+</head>
+<body>
+  <input type="button" value="Divタグに出力" onclick="outToDiv('読み込み順');" />
+  <input type="button" value="consoleに出力" onclick="outToConsole();" />
+  <input type="button" value="Divタグに出力:columnC-昇順" onclick="ascendingSortC();" />
+  <input type="button" value="Divタグに出力:columnC-降順" onclick="descendingSortC();" />
+<hr />
+  条件：columnCが<input type="text" id="txt03" minlength="4" maxlength="8" size="10">より大きい
+  <input type="button" value="条件付きDiv出力" onclick="outToDiv_Filtered();" />
+<hr />
+  columnFの単語(出現回数でソート)
+  <input type="button" value="columnF-単語" onclick="countWord();" />
+<hr />
+  <div>実行結果</div>
+  <div id="Area01"></div>
+</body>
+</html>
