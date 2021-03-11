@@ -1,1 +1,1 @@
-# Handling_JSON_with_no_web_server_HTML-JavaScript-
+# Ｗebサーバ無しHTML(JavaScript)でJSONデータを扱う
