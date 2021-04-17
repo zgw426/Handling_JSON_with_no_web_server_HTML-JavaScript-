@@ -20,6 +20,8 @@ Webサーバー不要 `accessJson.html` を実行するだけで動作します�
 
 `01_base` を応用したスクリプト。JSONデータ `link.json.js` をもとにAWSの構成図を作図するスクリプト。
 
+[![alt設定](http://img.youtube.com/vi/XDBchGyI0JE/0.jpg)](https://www.youtube.com/watch?v=XDBchGyI0JE)
+
 ファイル構成
 
 - 02_AWS-Diagram
