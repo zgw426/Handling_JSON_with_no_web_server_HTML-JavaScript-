@@ -22,6 +22,11 @@ Webサーバー不要 `accessJson.html` を実行するだけで動作します�
 
 [![alt設定](http://img.youtube.com/vi/XDBchGyI0JE/0.jpg)](https://www.youtube.com/watch?v=XDBchGyI0JE)
 
+使い方はこちらのQiita記事で紹介しました
+
+- JSONデータからAWS構成図を作図するスクリプト
+- https://qiita.com/suo-takefumi/items/2608dd179e83eb284779
+
 ファイル構成
 
 - 02_AWS-Diagram
