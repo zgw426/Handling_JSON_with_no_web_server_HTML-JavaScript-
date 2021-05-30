@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>作図アプリ</title>
+<style>
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
+main {
+    height: calc(100% - 60px);
+    -js-display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0px;
+}
+
+div.area00 {
+    width: calc(100%);
+    height: 30px;
+    margin: 0px;
+    overflow: hidden;
+    background-color: #D3D3D3;
+}
+
+div.area100 {
+    width:  calc(100%);
+    height: 30px;
+    margin: 0px;
+    overflow: hidden;
+    background-color: #D3D3D3;
+}
+
+main div.area01 {
+    width: calc(10% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
+    overflow: hidden;
+    background-color: #D3D3D3;
+}
+main div.area02 {
+    width: calc(75% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+}
+main div.area03 {
+    width: calc(15% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: #D3D3D3;
+}
+
+.SvgFrame{
+    border:solid 1px #FFFFFF;
+    background-color: #FFFFFF;
+}
+</style>
+
+</head>
+<body>
+<div class="area00">
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" id="file" accept="application/json">
+    </form>
+</div>
+<main>
+    <div class="area01" id="area01">
+    </div>
+    <div class="area02" id="area02">
+        <svg id="svgArea" width="100" height="100" viewBox="0 0 100 100" class="SvgFrame"></svg>
+    </div>
+    <div class="area03" id="area03"></div>
+</main>
+<div class="area100" id="area100"></div>
+
+<script>
+let rects;
+const svgArea = document.getElementById('svgArea');
+let canWidth = area02.offsetWidth
+let canHeight = area02.offsetHeight
+let zoomedWidth  = canWidth;
+let zoomedHeight = canHeight;
+let zoomedMinX = 0;
+let zoomedMinY = 0;
+let zoomedViewBox = [zoomedMinX, zoomedMinY, zoomedWidth, zoomedHeight].join(' ');
+const element = document.getElementById("area02");
+let scale = 1.0;
+let scaleRate = 1.0;
+let wheelRate = 0.001;
+let objPosX = 0.0;
+let objPosY = 0.0;
+let isDrawing = false;
+let mousePosX = 0;
+let mousePosY = 0;
+const reader = new FileReader();
+let list;
+
+//document.getElementById('area02').innerHTML = "<h1>ああああ</h1>いいい";
+//console.log("test です");
+
+function resizeSvgArea(){
+  canWidth = area02.offsetWidth;
+  canHeight = area02.offsetHeight;
+  svgArea.setAttribute("width", canWidth);
+  svgArea.setAttribute("height", canHeight);
+  svgArea.setAttribute("viewBox", zoomedViewBox);
+  //document.getElementById("area100").innerHTML = zoomedMinX +","+ zoomedMinY +","+ zoomedWidth +","+ zoomedHeight;
+}
+
+//-----------------------/////////
+
+let MaxLayer = 0;
+let BaseWidth= 0;
+let CellWidth = 0;
+let linePoints = {};
+let lines = [];
+let lineGrps = [];
+let selectStr = "";
+let bgGray = "#7F7F7F";
+
+//----------------------/////////
+
+function setInitWhenJSONLoad(){
+  MaxLayer = 0;
+  BaseWidth= 0;
+  CellWidth = 0;
+  linePoints = {};
+  lines = [];
+  lineGrps = [];
+  selectStr = "";
+  document.getElementById("area01").innerHTML = "";
+  document.getElementById("area03").innerHTML = "";
+  document.getElementById("area100").innerHTML = "";
+
+  zoomedMinX = 0;
+  zoomedMinY = 0;
+  scale = 1.0;
+  scaleRate = 1.0;
+  wheelRate = 0.001;
+  objPosX = 0.0;
+  objPosY = 0.0;
+  isDrawing = false;
+  mousePosX = 0;
+  mousePosY = 0;
+}
+
+function MouseWheelHandlerFunc(e){
+    let element_result = document.getElementById("area100");
+    scaleRate -= e.wheelDelta * wheelRate;
+    document.getElementById("area100").innerHTML = "MouseWheelListenerFunc : " + scaleRate;
+}
+
+function MouseWheelListenerFunc(e){
+    let element_result = document.getElementById("area100");
+    scale += e.wheelDelta * wheelRate;
+    if(scale <= 0){
+        scale = 0.001;
+    }
+    document.getElementById("area100").innerHTML = "MouseWheelListenerFunc scale = " + scale;
+    zoomedWidth  = canWidth  * scale;
+    zoomedHeight = canHeight * scale;
+    zoomedViewBox = [zoomedMinX, zoomedMinY, zoomedWidth, zoomedHeight].join(' ');
+    svgArea.setAttribute("viewBox", zoomedViewBox);
+}
+
+function MouseScrollFunc(e){
+    let element_result = document.getElementById("area100");
+    scaleRate -= e.wheelDelta * wheelRate;
+    document.getElementById("area100").innerHTML = "MouseWheelListenerFunc : " + scaleRate;
+}
+
+function MouseMoveFunc(e){
+    let mX = e.pageX;  //X座標
+    let mY = e.pageY;  //Y座標
+    if( isDrawing == true ){
+        let deltaX = (mousePosX - mX) * scale;
+        let deltaY = (mousePosY - mY) * scale;
+        mousePosX = mX;
+        mousePosY = mY;
+        zoomedMinX += deltaX;
+        zoomedMinY += deltaY;
+        zoomedViewBox = [zoomedMinX, zoomedMinY, zoomedWidth, zoomedHeight].join(' ');
+        svgArea.setAttribute("viewBox", zoomedViewBox);
+        //document.getElementById("area03").innerHTML = "MouseMoveFunc<BR />zoomedMinX = " + zoomedMinX +"<BR />zoomedMinY = " + zoomedMinY+"<BR />deltaX = " + deltaX +"<BR />deltaY = " + deltaY;
+    }
+}
+
+function MouseDownFunc(e){
+    mousePosX = e.pageX;
+    mousePosY = e.pageY;
+    isDrawing = true;
+}
+
+function MouseUpFunc(e){
+    isDrawing = false;
+    //document.getElementById("area03").innerHTML = "Mouse Up Func : " + isDrawing + " : " + mousePosX + " : " + mousePosY;  
+}
+
+//--------------------------------------//
+
+/////////////////////////////////////////
+// JSON 読み込み → 変更格納
+function loadFlow(){
+  for(lpa=0; lpa<list.length; lpa++){ //-- LOOP (lpa) --//
+    if( list[lpa]["TYPE"] == "INIT"){
+      MaxLayer = Number(list[lpa]["MaxLayer"] + 1);
+      BaseWidth= Number(list[lpa]["BaseWidth"]);
+      CellWidth= Number(list[lpa]["CellWidth"]);
+    }else if (list[lpa]["TYPE"] == "LINE"){
+      lines[ list[lpa]["OBJECT"] ] = list[lpa]["LINE"];
+    }else if (list[lpa]["TYPE"] == "LINE-GRP"){
+      lineGrps[ list[lpa]["LAVEL"] ] = list[lpa]["LINES"];
+      lineGrps[ list[lpa]["LAVEL"] +"++STROKE" ] = list[lpa]["STROKE"]; // color
+      lineGrps[ list[lpa]["LAVEL"] +"++WIDTH" ] = list[lpa]["WIDTH"];
+      lineGrps[ list[lpa]["LAVEL"] +"++shwFlg" ] = -1;
+
+      selectStr += "<div id='"+ list[lpa]["LAVEL"] +"' style='background-color:"+bgGray+";cursor:pointer;' onClick=clickLINE('"+ list[lpa]["LAVEL"] +"')>"+list[lpa]["LAVEL"]+"</div>";
+      document.getElementById("area01").innerHTML = "<form name='LINESFORM'>"+selectStr+"</form>";
+    }else if (list[lpa]["TYPE"] == "FIG"){
+
+      let LayerNo= list[lpa]["LAYER"];
+      let topXNo = Number( list[lpa]["TopX"] );         // topXNo
+      let btmXNo = Number( list[lpa]["BtmX"] );         // btmXNo
+      let topYNo = Number( list[lpa]["TopY"] );         // topYNo
+      let btmYNo = Number( list[lpa]["BtmY"] );         // btmYNo
+
+      list[lpa]["TopX"]  = Number( MaxLayer-LayerNo           + (topXNo-1)*(MaxLayer*2+1) );
+      list[lpa]["BtmX"]  = Number( MaxLayer+LayerNo+BaseWidth + (btmXNo-1)*(MaxLayer*2+1) );
+      list[lpa]["TopY"]  = Number( MaxLayer-LayerNo           + (topYNo-1)*(MaxLayer*2+1) );
+      list[lpa]["BtmY"]  = Number( MaxLayer+LayerNo+BaseWidth + (btmYNo-1)*(MaxLayer*2+1) );
+      list[lpa]["Width"] = Number( Math.abs( list[lpa]["TopX"] - list[lpa]["BtmX"] ) );
+      list[lpa]["Height"]= Number( Math.abs( list[lpa]["TopY"] - list[lpa]["BtmY"] ) );
+
+      list[lpa]["TopX"]  *= CellWidth;
+      list[lpa]["BtmX"]  *= CellWidth;
+      list[lpa]["TopY"]  *= CellWidth;
+      list[lpa]["BtmY"]  *= CellWidth;
+      list[lpa]["Width"] *= CellWidth;
+      list[lpa]["Height"]*= CellWidth;
+      
+      let tmpPointX = list[lpa]["TopX"] + list[lpa]["Width"]/2;
+      let tmpPointY = list[lpa]["TopY"] + list[lpa]["Height"]/2;
+      linePoints[ list[lpa]["OBJECT"] + "X" ] = tmpPointX;
+      linePoints[ list[lpa]["OBJECT"] + "Y" ] = tmpPointY;
+
+    }else{
+      console.log("debug");
+    }
+
+    document.getElementById("area01").innerHTML = "<form name='LINESFORM'>"+selectStr+"</form>";
+
+  } //-- LOOP (lpa) -----------------------------------//
+
+  for(let point in linePoints){
+    console.log(point + "= " + linePoints[point] );
+  }
+}
+// JSON 読み込み → 変更格納
+/////////////////////////////////////////
+
+/////////////////////////////////////////
+// LINEをクリックしたときの挙動
+function clickLINE(argTarget){
+  let selectStr = "";
+  lineGrps[ argTarget +"++shwFlg" ] *= -1;
+
+  for(let lineGrp in lineGrps)
+  {
+    let strokeV;
+    let strokeF;
+    if( lineGrp.indexOf("++") < 0 ){
+      strokeV= lineGrps[lineGrp +"++STROKE"];
+      strokeF= lineGrps[lineGrp +"++shwFlg"];
+      if( strokeF == -1 ) strokeV = bgGray;
+      selectStr += "<div style='background-color:"+strokeV+";cursor:pointer;' onClick=clickLINE('"+ lineGrp +"')>"+lineGrp+"</div>"; 
+    }
+  }
+  document.getElementById("area01").innerHTML = "<form name='LINESFORM'>"+selectStr+"</form>";
+  drawFlow();
+}
+// 
+/////////////////////////////////////////
+
+/////////////////////////////////////////
+// 描画
+function drawFlow(){
+  let wStr = "";
+  let wStr2 = "";
+  clearFlow();
+
+  // 図形の描画
+  for(lpa=0; lpa<list.length; lpa++){
+    if( list[lpa]["TYPE"] == "FIG"){
+      let posX, posY, imgW, imgH, imgPath, txtX, txtY, txtStr, txtAnchor, idStr;
+      imgPath = "./images/"+ list[0][ list[lpa]["SET"] ][0];
+      txtStr  = list[lpa]["LAVEL"];
+      idStr = list[lpa]["TYPE"] == "FIG";
+
+      if(list[0][ list[lpa]["SET"] ][4] == "HEAD-LEFT"){
+        imgW = imgH = CellWidth * 0.8;
+        posX = list[lpa]["TopX"];
+        posY = list[lpa]["TopY"];
+        txtX = list[lpa]["TopX"] + CellWidth * 0.9;
+        txtY = list[lpa]["TopY"] + CellWidth * 0.7;
+        txtAnchor = "start";
+      }else if(list[0][ list[lpa]["SET"] ][4] == "HEAD-RIGHT"){
+        imgW = imgH = CellWidth * 0.8;
+        posX = list[lpa]["BtmX"] - CellWidth * 0.8;
+        posY = list[lpa]["TopY"];
+        txtX = list[lpa]["BtmX"] - CellWidth * 0.9;
+        txtY = list[lpa]["TopY"] + CellWidth * 0.7;
+        txtAnchor = "end";
+      }else if(list[0][ list[lpa]["SET"] ][4] == "TAIL-LEFT"){
+        imgW = imgH = CellWidth * 0.8;
+        posX = list[lpa]["TopX"];
+        posY = list[lpa]["BtmY"] - CellWidth * 0.8;
+        txtX = list[lpa]["TopX"] + CellWidth * 0.9;
+        txtY = list[lpa]["BtmY"] - CellWidth * 0.1;
+        txtAnchor = "start";
+      }else if(list[0][ list[lpa]["SET"] ][4] == "TAIL-RIGHT"){
+        imgW = imgH = CellWidth * 0.8;
+        posX = list[lpa]["BtmX"] - CellWidth * 0.8;
+        posY = list[lpa]["BtmY"] - CellWidth * 0.8;
+        txtX = list[lpa]["BtmX"] - CellWidth * 0.9;
+        txtY = list[lpa]["BtmY"] - CellWidth * 0.1;
+        txtAnchor = "end";
+      }else if(list[0][ list[lpa]["SET"] ][4] == "CENTER"){
+        let lengX = Math.abs( list[lpa]["TopX"] - list[lpa]["BtmX"] );
+        let lengY = Math.abs( list[lpa]["TopY"] - list[lpa]["BtmY"] );
+        let lengW = Math.min(lengX,lengY) * 0.8;
+        let centX = (list[lpa]["TopX"] + list[lpa]["BtmX"]) /2;
+        let centY = (list[lpa]["TopY"] + list[lpa]["BtmY"]) /2;
+        posX = centX - lengW * 0.5;
+        posY = centY - lengW * 0.5;
+        imgW = imgH = lengW;
+        txtX = centX;
+        txtY = centY + lengW * 0.7;
+        txtAnchor = "middle";
+      }
+      wStr += "<image x='"+posX+"' y='"+posY+"' width='"+imgW+"' height='"+imgH+"' xlink:href='"+ imgPath +"' />";
+      wStr += "<text x='"+txtX+"' y='"+txtY+"' font-size='12' text-anchor='"+ txtAnchor +"'>"+ txtStr +"</text>";
+      wStr += "<rect x ='"+list[lpa]["TopX"]+"' y='"+list[lpa]["TopY"]+"' width='"+list[lpa]["Width"]+"' height='"+list[lpa]["Height"]+"' rx='0' ty='0' fill='"+ list[0][ list[lpa]["SET"] ][1] +"' fill-opacity="+ list[0][ list[lpa]["SET"] ][2] +" stroke='"+list[0][ list[lpa]["SET"] ][3]+"' rect-id='"+ idStr +"'></rect>";
+
+      //////////-------------------------- ONLINE ----------------------------//////////
+      if( "ONLINE" in  list[lpa]){ // "ONLINE"がある場合
+        for(lpb=0; lpb<list[lpa]["ONLINE"].length; lpb++){
+          let rate1 = 1.6;
+          let rate2 = 0.5;
+          let rate3 = rate1 + 0.05;
+          console.log("rate3 = " + rate3);
+          imgPath = "./images/"+ list[0][ list[lpa]["ONLINE"][lpb]["SET"] ][0];
+          imgW = imgH = CellWidth * rate1;
+          
+          if(list[lpa]["ONLINE"][lpb]["POSITION"] == "TOP" ){
+            posX = list[lpa]["TopX"] + (imgW * rate3) * list[lpa]["ONLINE"][lpb]["NO"];
+            posY = list[lpa]["TopY"] - (imgH * rate2);
+          }else if( list[lpa]["ONLINE"][lpb]["POSITION"] == "LEFT" ){
+            posX = list[lpa]["TopX"] - (imgW * rate2);
+            posY = list[lpa]["TopY"] + (imgH * rate3) * list[lpa]["ONLINE"][lpb]["NO"];
+          }else if( list[lpa]["ONLINE"][lpb]["POSITION"] == "RIGHT" ){
+            posX = list[lpa]["BtmX"] - (imgW * rate2);
+            posY = list[lpa]["TopY"] + (imgH * rate3) * list[lpa]["ONLINE"][lpb]["NO"];
+          }else if( list[lpa]["ONLINE"][lpb]["POSITION"] == "BOTTOM" ){
+            posX = list[lpa]["TopX"] + (imgW * rate3) * list[lpa]["ONLINE"][lpb]["NO"];
+            posY = list[lpa]["BtmY"] - (imgH * rate2);
+          }else if( list[lpa]["ONLINE"][lpb]["POSITION"] == "IN" ){
+            imgW = imgH = CellWidth * 2.0;
+            posX = list[lpa]["TopX"] + (imgW * rate3) * (list[lpa]["ONLINE"][lpb]["NOX"]);
+            posY = list[lpa]["TopY"] + (imgH * rate3) * (list[lpa]["ONLINE"][lpb]["NOY"]);
+          }
+          linePoints[ list[lpa]["ONLINE"][lpb]["OBJECT"] + "X" ] = posX + imgW*0.5;
+          linePoints[ list[lpa]["ONLINE"][lpb]["OBJECT"] + "Y" ] = posY + imgH*0.5;
+          wStr += "<image x='"+posX+"' y='"+posY+"' width='"+imgW+"' height='"+imgH+"' xlink:href='"+ imgPath +"' />";
+        }
+      }
+      //////////-------------------------- ONLINE ----------------------------//////////
+    }else if( list[lpa]["TYPE"] == "INFO"){
+      console.log("[TYPE-INFO] " + list[lpa]["OBJECT"] + " : " + list[lpa]["INFO"].length);
+      wStr2 += "<div id="+ list[lpa]["OBJECT"] +">";
+      for(let ilp=0; ilp < list[lpa]["INFO"].length; ilp++ ){
+        //console.log("ilp = " + ilp);
+        for(let infoCol in list[lpa]["INFO"][ilp])
+        {
+          console.log("[TYPE-INFO] ilp = " + ilp + " : infoCol = " + infoCol + " : infVal = " + list[lpa]["INFO"][ilp][infoCol] );
+          wStr2 += infoCol + " : " + list[lpa]["INFO"][ilp][infoCol] + "<BR />";
+        }
+      }
+      wStr2 += "</div>";
+    }
+  }
+
+  // 線の描画
+  for(let lineGrp in lineGrps){
+    let tmpFlg = 0;
+    if( lineGrp.indexOf("++") == -1 ) tmpFlg = 1;
+    else tmpFlg = 0;
+    
+    if( tmpFlg == 1 )
+    {
+      for(i=0; i < lineGrps[lineGrp].length; i++ ){
+        let shFlg = 0;
+        let strokeV;
+        let strokeF;
+        
+        strokeV= lineGrps[lineGrp +"++STROKE"];
+        strokeF= lineGrps[lineGrp +"++shwFlg"];
+
+        if( strokeF == 1 ) shFlg = 1;
+        else               shFlg = 0;
+
+        if( shFlg == 1)
+        {
+          for(j=0; j < lines[ lineGrps[lineGrp][i] ].length-1; j++){
+            let tmp1X = linePoints[ lines[ lineGrps[lineGrp][i] ][j] + "X" ];
+            let tmp1Y = linePoints[ lines[ lineGrps[lineGrp][i] ][j] + "Y" ];
+            let tmp2X = linePoints[ lines[ lineGrps[lineGrp][i] ][j+1] + "X" ];
+            let tmp2Y = linePoints[ lines[ lineGrps[lineGrp][i] ][j+1] + "Y" ];
+            wStr += "<line x1='"+tmp1X+"' y1='"+tmp1Y+"' x2='"+tmp2X+"' y2='"+tmp2Y+"' stroke='"+strokeV+"' stroke-width='4' stroke-dasharray='4' stroke-linecap='round' stroke-opacity='0.8' stroke-linejoin='round' />";
+          }
+        }
+      }
+    }
+  } // for(let lineGrp in lineGrps)
+  document.getElementById("svgArea").innerHTML = wStr;
+  document.getElementById("area03").innerHTML = wStr2;
+}
+// 描画
+/////////////////////////////////////////
+
+function clearFlow(){
+  document.getElementById("svgArea").innerHTML = "";
+}
+
+function setRects(){
+  rects = window.document.querySelectorAll('rect');
+  for (i = 0; i < rects.length; ++i) {
+    rects[i].onclick = setPosition;
+  }
+}
+
+
+function allFlow(){
+  setInitWhenJSONLoad();
+  resizeSvgArea();
+  loadFlow();
+  drawFlow();
+  //setRects();
+}
+
+////////////////////////////////////////////////////
+
+function scrollToTop(argPosition) {
+    //console.log("[DEBUG] scrollToTop");
+    document.getElementById("area100").innerHTML = "[DEBUG] scrollToTop";
+    let element = document.getElementById(argPosition); // 移動させたい位置の要素を取得
+    let rect = element.getBoundingClientRect();
+    let position = rect.top;    // 一番上からの位置を取得
+    scrollTo(0, position);
+}
+
+function setPosition(e) {
+  alert('Welcome to ' + e.target.getAttribute('rect-id'));
+};
+
+////////////////////////////////////////////////////
+
+window.onload=function(){
+  resizeSvgArea();
+  window.addEventListener("resize", resizeSvgArea);
+  if(element.addEventListener){
+      element.addEventListener("mousewheel",     MouseWheelListenerFunc);
+      element.addEventListener("DOMMouseScroll", MouseScrollFunc); // Firefox 専用
+      element.addEventListener("mousemove",      MouseMoveFunc);
+      element.addEventListener("mousedown",      MouseDownFunc);
+      element.addEventListener("mouseup",        MouseUpFunc);
+  }else if(element.attachEvent){
+      element.attachEvent("onmousewheel" , MouseWheelHandlerFunc);
+  }
+  file.addEventListener('change', function(e) {
+      reader.readAsText(e.target.files[0]);
+  });
+  reader.onload = function(e) {
+      list = JSON.parse(e.target.result);
+      allFlow();
+  };
+}
+
+/////
+
+
+initStr = "<H1>作図アプリ</H1>『ファイルを選択』ボタンをJSONファイルを設定してください";
+initStr += "<text x='10' y='10' font-size='24' >"+ initStr +"</text>";
+document.getElementById("svgArea").innerHTML = initStr;
+
+
+</script>
+</body>
+</html>

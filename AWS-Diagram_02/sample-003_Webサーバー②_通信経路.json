@@ -1,0 +1,50 @@
+[
+  {
+    "OBJECT": "NONE",
+      "TYPE": "INIT",
+      "MaxLayer": 6,
+      "BaseWidth": 2,
+      "CellWidth": 20,
+      "AWS"   : ["aws.png",  "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "VPC"   : ["vpc.png",  "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "AZ"    : ["blank.png","none"   ,"0.0","#5b9cd5","HEAD-LEFT"],
+      "PUB"   : ["pub.png",  "#1f860f","0.2","#1f860f","HEAD-LEFT"],
+      "PRI"   : ["pri.png",  "#147eba","0.2","#147eba","HEAD-LEFT"],
+      "SG"    : ["blank.png","none"   ,"0.0","#FF0000","HEAD-LEFT"],
+      "ALB"   : ["alb.png",  "#d86613","0.3","#d86613","CENTER"],
+      "EC2"   : ["ec2.png",  "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "RDS"   : ["rds.png",  "none"   ,"0.3","none","CENTER"],
+      "WEPAPP": ["ApacheTomcat.png", "none" ,"0.0","none","CENTER"]
+  },
+  {"OBJECT": "AWS-001", "LAVEL": "AWS", "TYPE": "FIG", "SET": "AWS","LAYER": 6,"TopX": "1","TopY": "1","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "VPC-001", "LAVEL": "VPC", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "1","TopY": "1","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "AZ-001", "LAVEL": "AZ(1a)", "TYPE": "FIG", "SET": "AZ","LAYER": 4,"TopX": "1","TopY": "1","BtmX": "3","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "AZ-002", "LAVEL": "AZ(1c)", "TYPE": "FIG", "SET": "AZ","LAYER": 4,"TopX": "1","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-001", "LAVEL": "192.168.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-002", "LAVEL": "192.168.2.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "1","TopY": "2","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "SG-001", "LAVEL": "SG(ForALB)", "TYPE": "FIG", "SET": "SG","LAYER": 2,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "ALB-001", "LAVEL": "ALB01", "TYPE": "FIG", "SET": "ALB","LAYER": 1,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-001", "LAVEL": "192.168.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-002", "LAVEL": "192.168.12.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "2","TopY": "2","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "SG-002", "LAVEL": "SG(ForEC2)", "TYPE": "FIG", "SET": "SG","LAYER": 2,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "EC2-001", "LAVEL": "EC2", "TYPE": "FIG", "SET": "EC2","LAYER": 1,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "1","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "EC2-001-1","POSITION": "IN","NOX": "0.3","NOY": "0.3", "LAVEL": "", "SET": "WEPAPP" }
+    ]
+  },
+  {"OBJECT": "EC2-002", "LAVEL": "EC2", "TYPE": "FIG", "SET": "EC2","LAYER": 1,"TopX": "2","TopY": "2","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "EC2-002-1","POSITION": "IN","NOX": "0.3","NOY": "0.3", "LAVEL": "", "SET": "WEPAPP" }
+    ]
+  },
+  {"OBJECT": "SG-003", "LAVEL": "SG(ForSG)", "TYPE": "FIG", "SET": "SG","LAYER": 2,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-001", "LAVEL": "192.168.101.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-002", "LAVEL": "192.168.102.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "3","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "RDS-001", "LAVEL": "Master","TYPE": "FIG", "SET": "RDS","LAYER": 1,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "RDS-002", "LAVEL": "Slave","TYPE": "FIG", "SET": "RDS","LAYER": 1,"TopX": "3","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"TYPE": "LINE","OBJECT": "LINE-A001","LINE": ["ALB-001","EC2-001","RDS-001"]},
+  {"TYPE": "LINE","OBJECT": "LINE-A002","LINE": ["ALB-001","EC2-002","RDS-001"]},
+  {"TYPE": "LINE","OBJECT": "LINE-B001","LINE": ["RDS-001","RDS-002"]},
+  {"TYPE": "LINE-GRP","LAVEL": "通信経路","STROKE": "#0a0ad2","LINES": ["LINE-A001","LINE-A002"]},
+  {"TYPE": "LINE-GRP","LAVEL": "冗長化","STROKE": "#fc0301","LINES": ["LINE-B001"]}
+]
