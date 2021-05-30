@@ -2,13 +2,13 @@
 
 Webサーバーを立てずに、ローカルHTML(JavaScript)でJSONデータを扱うサンプル作りました。
 
-## 01_base : 基本
+## Base_01 : 基本
 
 Webサーバーを立てずに、ローカルHTML(JavaScript)でJSONデータを扱うサンプル。説明はQiita記事参照 -> [Ｗebサーバ無しHTML(JavaScript)でJSONデータを扱う](https://qiita.com/suo-takefumi/items/be1cbc19f1d105c57bce)
 
 ファイル構成
 
-- 01_base
+- Base_01
     - accessJson.html
     - link.json.js
 
@@ -16,7 +16,7 @@ Webサーバーを立てずに、ローカルHTML(JavaScript)でJSONデータを
 
 Webサーバー不要 `accessJson.html` を実行するだけで動作します。
 
-## 02_AWS-Diagram : JSONデータからAWS構成図を作図
+## AWS-Diagram_01 : JSONデータからAWS構成図を作図
 
 `01_base` を応用したスクリプト。JSONデータ `link.json.js` をもとにAWSの構成図を作図するスクリプト。
 
@@ -29,7 +29,7 @@ Webサーバー不要 `accessJson.html` を実行するだけで動作します�
 
 ファイル構成
 
-- 02_AWS-Diagram
+- AWS-Diagram_01
     - AwsDiagram.html
     - link.json.js
     - images
@@ -55,3 +55,17 @@ Webサーバー不要 `accessJson.html` を実行するだけで動作します�
         - vpc.png
 
 
+## AWS-Diagram_02 : JSONデータからAWS構成図を作図
+
+AWS-Diagram_01 の改良版。`ファイルを選択`ボタンで、読み込むJSONデータを指定します。
+
+- AWS-Diagram_02
+    - AwsDiagram_02.html
+    - sample-000_基本.json
+        - JSONの基礎的な書き方
+    - sample-001_EC2.json
+        - シンプルなAWS構成図
+    - sample-002_Webサーバー①.json
+        - AWSでWebサーバを構築した基本的な構成
+    - sample-003_Webサーバー②_通信経路.json
+        - 通信経路の情報を追加

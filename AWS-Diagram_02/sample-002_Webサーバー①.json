@@ -22,7 +22,7 @@
   {"OBJECT": "AZ-002", "LAVEL": "AZ(1c)", "TYPE": "FIG", "SET": "AZ","LAYER": 4,"TopX": "1","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
   {"OBJECT": "SUB-001", "LAVEL": "192.168.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
   {"OBJECT": "SUB-002", "LAVEL": "192.168.2.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "1","TopY": "2","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0},
-  {"OBJECT": "SG-001", "LAVEL": "SG(ForALB)", "TYPE": "FIG", "SET": "SG","LAYER": 2,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "SG-001", "LAVEL": "SG(ForALB)", "TYPE": "FIG", "SET": "SG","LAYER": 2,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0},
   {"OBJECT": "ALB-001", "LAVEL": "ALB01", "TYPE": "FIG", "SET": "ALB","LAYER": 1,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0},
   {"OBJECT": "SUB-001", "LAVEL": "192.168.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "1","Width" : 0,"Height": 0},
   {"OBJECT": "SUB-002", "LAVEL": "192.168.12.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "2","TopY": "2","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0},
