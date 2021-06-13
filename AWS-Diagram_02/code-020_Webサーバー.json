@@ -11,8 +11,8 @@
       "PUB"   : ["pub.png",  "#1f860f","0.2","#1f860f","HEAD-LEFT"],
       "PRI"   : ["pri.png",  "#147eba","0.2","#147eba","HEAD-LEFT"],
       "SG"    : ["blank.png","none"   ,"0.0","#FF0000","HEAD-LEFT"],
-      "ALB"   : ["alb.png",  "#d86613","0.3","#d86613","CENTER"],
-      "EC2"   : ["ec2.png",  "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "ALB"   : ["alb.png",  "#4d28aa","0.3","#4d28aa","CENTER"],
+      "EC2"   : ["ec2.png",  "none"   ,"0.0","#d45b07","HEAD-LEFT"],
       "RDS"   : ["rds.png",  "none"   ,"0.3","none"   ,"CENTER"],
       "WEPAPP": ["ApacheTomcat.png", "none" ,"0.0","none","CENTER"]
   },

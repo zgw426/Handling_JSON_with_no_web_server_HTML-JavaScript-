@@ -1,0 +1,43 @@
+[
+  {
+    "OBJECT": "NONE",
+      "TYPE": "INIT",
+      "MaxLayer": 8,
+      "BaseWidth": 2,
+      "CellWidth": 20,
+      "BLANK"    : ["blank.png", "none"   ,"0.0","none","CENTER"],
+      "PC"    : ["pc.png", "none"   ,"0.0","none","CENTER"],
+      "AWS"   : ["aws.png",   "none"   ,"0.0","#00BBCC","HEAD-LEFT"],
+      "VPC"   : ["vpc.png",   "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "IGW"   : ["igw.png",   "none"   ,"0.0","#000000","CENTER"],
+      "AZ"    : ["blank.png", "none"   ,"0.0","#5b9cd5","HEAD-LEFT"],
+      "PUB"   : ["pub.png",   "#1f860f","0.2","#1f860f","HEAD-LEFT"],
+      "SG"    : ["blank.png", "none"   ,"0.0","#FF0000","HEAD-LEFT"],
+      "EC2"   : ["ec2.png",   "none"   ,"0.0","none"   ,"CENTER"],
+      "EIP"   : ["eip.png",   "none"   ,"0.0","none"   ,"CENTER"]
+  },
+
+  {"OBJECT": "OBJ-700", "LAVEL": "","TYPE": "FIG", "SET": "BLANK", "LAYER": 8,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "OBJ-701","POSITION": "LEFT","NO": "4", "LAVEL": "igw", "SET": "PC" }
+    ]
+  },
+  {"OBJECT": "OBJ-600", "LAVEL": "AWS", "TYPE": "FIG", "SET": "AWS","LAYER": 6,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "OBJ-500", "LAVEL": "VPC", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "OBJ-501","POSITION": "LEFT",  "NO": "2", "LAVEL": "igw", "SET": "IGW" }
+    ]
+  },
+  {"OBJECT": "OBJ-400", "LAVEL": "AZ(1a)", "TYPE": "FIG", "SET": "AZ","LAYER": 4,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "OBJ-300", "LAVEL": "PublicSubnet", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "OBJ-200", "LAVEL": "SG", "TYPE": "FIG", "SET": "SG","LAYER": 2,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "OBJ-100", "LAVEL": "EC2", "TYPE": "FIG", "SET": "EC2","LAYER": 1,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "OBJ-101","POSITION": "RIGHT",  "NO": "1", "LAVEL": "EIP", "SET": "EIP" }
+    ]
+  },
+
+  {"TYPE": "LINE","OBJECT": "network-01","LINE": ["OBJ-701","OBJ-501","OBJ-101"]},
+  {"TYPE": "LINE-GRP","LAVEL": "通信経路","STROKE": "#af0faf","LINES": ["network-01"]}
+]
+

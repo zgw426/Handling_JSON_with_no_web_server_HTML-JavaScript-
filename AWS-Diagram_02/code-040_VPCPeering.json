@@ -1,0 +1,46 @@
+[
+  {
+    "OBJECT": "NONE",
+      "TYPE": "INIT",
+      "MaxLayer": 6,
+      "BaseWidth": 2,
+      "CellWidth": 20,
+      "AWS"   : ["aws.png",   "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "VPC"   : ["vpc.png",   "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "IGW"   : ["igw.png",   "none"   ,"0.0","#000000","CENTER"],
+      "PEER"  : ["vpeer.png", "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "PUB"   : ["pub.png",  "#1f860f","0.2","#1f860f","HEAD-LEFT"],
+      "PRI"   : ["pri.png",  "#147eba","0.2","#147eba","HEAD-LEFT"]
+  },
+  {"OBJECT": "AWS-001", "LAVEL": "AWS", "TYPE": "FIG", "SET": "AWS","LAYER": 6,"TopX": "1","TopY": "1","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "VPC-001", "LAVEL": "VPC-1", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "IGW-001","POSITION": "LEFT",  "NO": "5", "LAVEL": "igw", "SET": "IGW" },
+      {"OBJECT": "VPEER-001","POSITION": "RIGHT",  "NO": "5", "LAVEL": "", "SET": "PEER" }
+    ]
+  },
+  {"OBJECT": "SUB-001", "LAVEL": "192.168.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-002", "LAVEL": "192.168.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "1","TopY": "2","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0},
+
+  {"OBJECT": "VPC-002", "LAVEL": "VPC-2", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "VPEER-002","POSITION": "LEFT",  "NO": "5", "LAVEL": "", "SET": "PEER" },
+      {"OBJECT": "VPEER-002","POSITION": "RIGHT",  "NO": "5", "LAVEL": "", "SET": "PEER" }
+    ]
+  },
+  {"OBJECT": "SUB-003", "LAVEL": "192.168.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-004", "LAVEL": "192.168.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "2","TopY": "2","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0},
+
+  {"OBJECT": "VPC-003", "LAVEL": "VPC-3", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "VPEER-002","POSITION": "LEFT",  "NO": "5", "LAVEL": "", "SET": "PEER" },
+      {"OBJECT": "VPEER-002","POSITION": "RIGHT",  "NO": "5", "LAVEL": "", "SET": "PEER" }
+    ]
+  },
+  {"OBJECT": "SUB-005", "LAVEL": "192.168.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "SUB-006", "LAVEL": "192.168.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "3","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0}
+
+
+
+
+]

@@ -1,0 +1,85 @@
+[
+  {
+    "OBJECT": "NONE",
+      "TYPE": "INIT",
+      "MaxLayer": 6,
+      "BaseWidth": 2,
+      "CellWidth": 20,
+      "AWS"   : ["aws.png",   "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "VPC"   : ["vpc.png",   "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "IGW"   : ["igw.png",   "none"   ,"0.0","#000000","CENTER"],
+      "PEER"  : ["vpeer.png", "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "RTBL"  : ["rttable.png","none"  ,"0.0","#000000","HEAD-LEFT"],
+      "PUB"   : ["pub.png",  "#1f860f","0.2","#1f860f","HEAD-LEFT"],
+      "PRI"   : ["pri.png",  "#147eba","0.2","#147eba","HEAD-LEFT"],
+      "BLANK" : ["blank.png",   "none"   ,"0.0","#000000","CENTER"]
+  },
+  {"OBJECT": "AWS-001", "LAVEL": "AWS", "TYPE": "FIG", "SET": "AWS","LAYER": 6,"TopX": "1","TopY": "1","BtmX": "3","BtmY": "3","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "BLANK-001","POSITION": "IN","NOX": "1.8","NOY": "9", "LAVEL": "", "SET": "BLANK" },
+      {"OBJECT": "BLANK-002","POSITION": "IN","NOX": "11","NOY": "9", "LAVEL": "", "SET": "BLANK" }
+    ]
+  },
+  {"OBJECT": "VPC-001", "LAVEL": "VPC(192.168.0.0/24)", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "IGW-001","POSITION": "LEFT",  "NO": "5", "LAVEL": "igw", "SET": "IGW" },
+      {"OBJECT": "VPEER-001","POSITION": "RIGHT",  "NO": "5", "LAVEL": "", "SET": "PEER" },
+      {"OBJECT": "VPEER-002","POSITION": "BOTTOM",  "NO": "2", "LAVEL": "", "SET": "PEER" }
+    ]
+  },
+  {"OBJECT": "SUB-001", "LAVEL": "192.168.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "RTABLE-001","POSITION": "RIGHT",  "NO": "2.5", "LAVEL": "", "SET": "RTBL" }
+    ]
+  },
+  {"OBJECT": "SUB-002", "LAVEL": "192.168.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "1","TopY": "2","BtmX": "1","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "RTABLE-002","POSITION": "RIGHT",  "NO": "2.5", "LAVEL": "", "SET": "RTBL" }
+    ]
+  },
+
+  {"OBJECT": "VPC-002", "LAVEL": "VPC(172.16.0.0/24)", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "VPEER-003","POSITION": "LEFT",  "NO": "5", "LAVEL": "", "SET": "PEER" },
+      {"OBJECT": "VPEER-004","POSITION": "RIGHT",  "NO": "5", "LAVEL": "", "SET": "PEER" }
+    ]
+  },
+  {"OBJECT": "SUB-003", "LAVEL": "172.16.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "1","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "RTABLE-003","POSITION": "RIGHT",  "NO": "2.5", "LAVEL": "", "SET": "RTBL" }
+    ]
+  },
+  {"OBJECT": "SUB-004", "LAVEL": "172.16.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "2","TopY": "2","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "RTABLE-004","POSITION": "RIGHT",  "NO": "2.5", "LAVEL": "", "SET": "RTBL" }
+    ]
+  },
+
+  {"OBJECT": "VPC-003", "LAVEL": "VPC(10.10.0.0/24)", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "VPEER-005","POSITION": "LEFT",  "NO": "5", "LAVEL": "", "SET": "PEER" },
+      {"OBJECT": "VPEER-006","POSITION": "BOTTOM",  "NO": "2", "LAVEL": "", "SET": "PEER" }
+    ]
+  },
+  {"OBJECT": "SUB-005", "LAVEL": "10.10.1.0/24", "TYPE": "FIG", "SET": "PUB","LAYER": 3,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "1","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "RTABLE-005","POSITION": "RIGHT",  "NO": "2.5", "LAVEL": "", "SET": "RTBL" }
+    ]
+  },
+  {"OBJECT": "SUB-006", "LAVEL": "10.10.11.0/24", "TYPE": "FIG", "SET": "PRI","LAYER": 3,"TopX": "3","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0,
+    "ONLINE": [
+      {"OBJECT": "RTABLE-006","POSITION": "RIGHT",  "NO": "2.5", "LAVEL": "", "SET": "RTBL" }
+    ]
+  },
+
+  {"TYPE": "LINE","OBJECT": "connect-01","LINE": ["RTABLE-002","VPEER-001","VPEER-003","RTABLE-004"]},
+  {"TYPE": "LINE-GRP","LAVEL": "ピア接続①","STROKE": "#0afab0","LINES": ["connect-01"]},
+
+  {"TYPE": "LINE","OBJECT": "connect-02","LINE": ["RTABLE-004","VPEER-004","VPEER-005","RTABLE-006"]},
+  {"TYPE": "LINE-GRP","LAVEL": "ピア接続②","STROKE": "#ba0ab0","LINES": ["connect-02"]},
+
+  {"TYPE": "LINE","OBJECT": "connect-03","LINE": ["RTABLE-002","VPEER-002","BLANK-001","BLANK-002","VPEER-006","RTABLE-006"]},
+  {"TYPE": "LINE-GRP","LAVEL": "ピア接続③","STROKE": "#aafa30","LINES": ["connect-03"]}
+
+
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "OBJECT": "NONE",
+      "TYPE": "INIT",
+      "MaxLayer": 4,
+      "BaseWidth": 2,
+      "CellWidth": 20,
+      "PHONE" : ["phone-01.png", "none" ,"0.0","none","CENTER"],
+      "LINE" : ["line.png", "none" ,"0.0","none","CENTER"],
+      "INTERNET" : ["internet.png", "none" ,"0.0","none","CENTER"],
+      "AWS"   : ["aws.png",  "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "APIGW"   : ["apigw.png",  "none"   ,"0.0","none","CENTER"],
+      "LAMBDA"   : ["lambda.png",  "none"   ,"0.0","none","CENTER"],
+      "DYNAMODB"   : ["dynamodb.png",  "none"   ,"0.0","none","CENTER"],
+      "S3"   : ["s3.png",  "none"   ,"0.0","#000000","HEAD-LEFT"],
+      "IMGS"   : ["pictures.png",  "none"   ,"0.0","none","CENTER"]
+
+  },
+
+  {"OBJECT": "PHONE-01", "LAVEL": "スマホ", "TYPE": "FIG", "SET": "PHONE","LAYER": 2,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "LINE-01", "LAVEL": "LINE Developer API", "TYPE": "FIG", "SET": "LINE","LAYER": 2,"TopX": "2","TopY": "1","BtmX": "2","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "AWS", "LAVEL": "AWS", "TYPE": "FIG", "SET": "AWS","LAYER": 4,"TopX": "3","TopY": "1","BtmX": "5","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "APIGW-01", "LAVEL": "API Gateway", "TYPE": "FIG", "SET": "APIGW","LAYER": 2,"TopX": "3","TopY": "1","BtmX": "3","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "LAMBDA-01", "LAVEL": "Lambda", "TYPE": "FIG", "SET": "LAMBDA","LAYER": 2,"TopX": "4","TopY": "1","BtmX": "4","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "DYNAMODB-01", "LAVEL": "Dynano DB", "TYPE": "FIG", "SET": "DYNAMODB","LAYER": 2,"TopX": "5","TopY": "1","BtmX": "5","BtmY": "1","Width" : 0,"Height": 0},
+  {"OBJECT": "S3-01", "LAVEL": "S3バケット", "TYPE": "FIG", "SET": "S3","LAYER": 3,"TopX": "3","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"OBJECT": "IMG-01", "LAVEL": "画像", "TYPE": "FIG", "SET": "IMGS","LAYER": 2,"TopX": "3","TopY": "2","BtmX": "3","BtmY": "2","Width" : 0,"Height": 0},
+  {"TYPE": "LINE","OBJECT": "FLOW-01","LINE": ["PHONE-01","LINE-01","APIGW-01","LAMBDA-01","DYNAMODB-01"]},
+  {"TYPE": "LINE-GRP","LAVEL": "処理経路","STROKE": "#887080","LINES": ["FLOW-01"]},
+
+  {"OBJECT": "INTERNET-01", "LAVEL": "インターネット", "TYPE": "FIG", "SET": "INTERNET","LAYER": 2,"TopX": "2","TopY": "2","BtmX": "2","BtmY": "2","Width" : 0,"Height": 0},
+  {"TYPE": "LINE","OBJECT": "FLOW-02","LINE": ["PHONE-01","INTERNET-01","S3-01"]},
+  {"TYPE": "LINE-GRP","LAVEL": "画像表示","STROKE": "#FFAABB","LINES": ["FLOW-02"]}
+
+
+]
+
