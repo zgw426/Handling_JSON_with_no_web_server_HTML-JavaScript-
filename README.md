@@ -35,25 +35,7 @@ Webサーバー不要 `accessJson.html` を実行するだけで動作します�
     - images
         - alarm.png
         - alb.png
-        - autoscalling.png
-        - aws.png
-        - az.png
-        - cw.png
-        - ec2.png
-        - img01.jpg
-        - imgs.pptx
-        - office.png
-        - onpremises.png
-        - pc.png
-        - rds.png
-        - s3.png
-        - sg.png
-        - sns.png
-        - subnet-private.png
-        - subnet-public.png
-        - users.png
-        - vpc.png
-
+        - ※以下略(画像データを格納)
 
 ## AWS-Diagram_02 : JSONデータからAWS構成図を作図
 
@@ -61,11 +43,6 @@ AWS-Diagram_01 の改良版。`ファイルを選択`ボタンで、読み込む
 
 - AWS-Diagram_02
     - AwsDiagram_02.html
-    - sample-000_基本.json
-        - JSONの基礎的な書き方
-    - sample-001_EC2.json
-        - シンプルなAWS構成図
-    - sample-002_Webサーバー①.json
-        - AWSでWebサーバを構築した基本的な構成
-    - sample-003_Webサーバー②_通信経路.json
-        - 通信経路の情報を追加
+
+- AWS構成図のサンプル(JSONファイル)
+
