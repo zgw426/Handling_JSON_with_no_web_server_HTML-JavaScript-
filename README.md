@@ -40,9 +40,7 @@ Webサーバー不要 `accessJson.html` を実行するだけで動作します�
 ## AWS-Diagram_02 : JSONデータからAWS構成図を作図
 
 AWS-Diagram_01 の改良版。`ファイルを選択`ボタンで、読み込むJSONデータを指定します。
-
-- AWS-Diagram_02
-    - AwsDiagram_02.html
+`./AWS-Diagram_02/AwsDiagram_02.html`をブラウザで開くとアプリが起動する。
 
 - AWS構成図のサンプル(JSONファイル)
 
