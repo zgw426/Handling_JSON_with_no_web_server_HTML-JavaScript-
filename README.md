@@ -44,3 +44,23 @@ AWS-Diagram_01 の改良版。`ファイルを選択`ボタンで、読み込む
 
 - AWS構成図のサンプル(JSONファイル)
 
+|JSONファイル|概要|
+|---|---|
+|code-001_重ねた場合.json|レイヤーによりサイズが違う7つの図形を1箇所に重ねて表示|
+|code-002_バラバラ配置.json|code-001の図形をバラバラに配置|
+|code-003_基本-長方形.json|縦長、横長の長方形|
+|code-004_基本-接続線.json|図形をつなぎ接続線|
+|code-011_EC2.json|AWS構成図 VPC内のEC2|
+|code-012_EC2+EIP+IGW.json|code-011にEIP,InternetGateway追加|
+|code-013_EC2+通信経路.json|code-012に通信経路を追加|
+|code-020_Webサーバー.json|ALB-EC2(Webサーバー)-DB(RDS)のAWS構成図|
+|code-021_Webサーバー_通信経路.json|code-020に通信経路などの接続線を追加|
+|code-022_Webサーバー_autoscalling.json|code-021にAutoScallingを追加|
+|code-023_Webサーバー_CloudFront.json|code-022にCloudFrontや開発環境などを追加|
+|code-030_LINEBot.json|LINE BotのAWS構成図|
+|code-031_LINEBot.json|code-031にS3を追加|
+|code-040_VPCPeering.json|VPCピア接続のAWS構成図|
+|code-041_ルートテーブル追加.json|code-040にルートテーブルを追加|
+|code-042_通信経路修正.json|code-041のVPC間の通信経路を修正|
+
+
