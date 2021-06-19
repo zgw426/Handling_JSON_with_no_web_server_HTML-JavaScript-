@@ -5,6 +5,7 @@
       "MaxLayer": 8,
       "BaseWidth": 2,
       "CellWidth": 20,
+      "INTERNET" : ["internet.png",  "none"   ,"0.0","none","CENTER"],
       "BLANK"    : ["blank.png", "none"   ,"0.0","none","CENTER"],
       "PC"    : ["pc.png", "none"   ,"0.0","none","CENTER"],
       "AWS"   : ["aws.png",   "none"   ,"0.0","#00BBCC","HEAD-LEFT"],
@@ -17,11 +18,13 @@
       "EIP"   : ["eip.png",   "none"   ,"0.0","none"   ,"CENTER"]
   },
 
-  {"OBJECT": "OBJ-700", "LAVEL": "","TYPE": "FIG", "SET": "BLANK", "LAYER": 8,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0,
+  {"OBJECT": "OBJ-700", "LAVEL": "","TYPE": "FIG", "SET": "BLANK", "LAYER": 6,"TopX": "0","TopY": "1","BtmX": "0","BtmY": "1","Width" : 0,"Height": 0,
     "ONLINE": [
-      {"OBJECT": "OBJ-701","POSITION": "LEFT","NO": "4", "LAVEL": "igw", "SET": "PC" }
+      {"OBJECT": "OBJ-701","POSITION": "RIGHT",  "NO": "2.5", "LAVEL": "", "SET": "INTERNET" }
     ]
   },
+  {"OBJECT": "OBJ-702", "LAVEL": "","TYPE": "FIG", "SET": "PC", "LAYER": 1,"TopX": "0","TopY": "1","BtmX": "0","BtmY": "1","Width" : 0,"Height": 0},
+
   {"OBJECT": "OBJ-600", "LAVEL": "AWS", "TYPE": "FIG", "SET": "AWS","LAYER": 6,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0},
   {"OBJECT": "OBJ-500", "LAVEL": "VPC", "TYPE": "FIG", "SET": "VPC","LAYER": 5,"TopX": "1","TopY": "1","BtmX": "1","BtmY": "1","Width" : 0,"Height": 0,
     "ONLINE": [
@@ -37,7 +40,7 @@
     ]
   },
 
-  {"TYPE": "LINE","OBJECT": "network-01","LINE": ["OBJ-701","OBJ-501","OBJ-101"]},
+  {"TYPE": "LINE","OBJECT": "network-01","LINE": ["OBJ-700","OBJ-701","OBJ-501","OBJ-101"]},
   {"TYPE": "LINE-GRP","LAVEL": "通信経路","STROKE": "#af0faf","LINES": ["network-01"]}
 ]
 
