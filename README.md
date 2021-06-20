@@ -67,3 +67,104 @@ AWS-Diagram_01 の改良版。`ファイルを選択`ボタンで、読み込む
 |code-042_通信経路修正.json|code-041のVPC間の通信経路を修正|
 
 
+
+### AWS-Diagram_02 : JSONデータの作成規則 : 4つのTYPE
+
+JSONデータには、ＴYPE属性には `INIT`,`FIG`,`LINE`,`LINE-GRP` の4つ値のいずれかを設定します。
+
+```
+[
+    {"TYPE": "INIT", ・・・},
+    {"TYPE": "FIG", ・・・},
+    {"TYPE": "LINE", ・・・},
+    {"TYPE": "LINE-GRP", ・・・}
+]
+```
+
+|パラメータ|||
+|---|---|---|
+|INIT|必須|図全体の定義|
+|FIG||必須|図の配置場所などの設定|
+|LINE|オプション|接続の設定|
+|LINE-GRP|オプション|接続(LINE)設定のグループ化|
+
+
+### AWS-Diagram_02 : JSONデータの作成規則 : TYPE:INITの設定方法
+
+```
+[
+  { "OBJECT": "NONE",
+      "TYPE": "INIT",
+      "MaxLayer": 6,
+      "BaseWidth": 2,
+      "CellWidth": 20,
+      "FRM-A" : ["smpA.png", "none" ,"0.0","#00BBCC","HEAD-LEFT"],
+      "FRM-B" : ["smpB.png", "none" ,"0.0","#BB00AA","HEAD-RIGHT"],
+      "FRM-C" : ["smpC.png", "none" ,"0.0","#CCBB00","TAIL-LEFT"],
+      "FRM-D" : ["smpD.png", "none" ,"0.0","#A0A0A0","TAIL-RIGHT"],
+      "FRM-E" : ["smpE.png", "#AABB00" ,"0.2","#0B0C0D","HEAD-LEFT"],
+      "FRM-F" : ["smpF.png", "none" ,"0.0","#000000","HEAD-LEFT"],
+      "FRM-G" : ["smpG.png", "none" ,"0.0","none","CENTER"]
+  }
+]
+```
+
+|パラメータ|||
+|---|---|---|
+|OBJECT|必須|NONE|
+|TYPE||INIT|
+|MaxLayer||6|
+|BaseWidth|2|
+|CellWidth||20|
+|FRM-A||図形セットの定義名|
+
+図形セットの定義
+図形セットは、1つの画像と四角形で構成されています。
+図形セットの定義は、画像と四角形との位置関係や大きさになります。
+
+|#|値(例)||
+|---|---|---|
+|1|smpA.png|画像ファイル|
+|2|#121212|四角形の面の色。`none`は色なし|
+|3|0.0|四角形の面の色の透明度。`0.0`は完全な透明。`0.3`は透明度30%|
+|4|#121212|四角形の枠線の色。`none`は色なし|
+|5|HEAD-LEFT|画像ファイルの四角形の配置位置。`CENTER`,`HEAD-LEFT`,`HEAD-RIGHT`,`TAIL-LEFT`,`TAIL-RIGHT`|
+
+
+### AWS-Diagram_02 : JSONデータの作成規則 : TYPE:FIGの設定方法
+
+|パラメータ||設定例||
+|---|---|---|---|
+|OBJECT|必須|OBJ-600|図形のID。接続線を設定する際に使用|
+|LAVEL|必須|レイヤー６|図形と共に表示する文字列|
+|TYPE|必須|FIG|-|
+|SET|必須|FRM-A|使用する図形セットの定義名|
+|LAYER|必須|6|描画する階層。数値が大きいほどサイズが大きくなる。1～`MaxLayer`までの値を設定|
+|TopX|必須|1|描画する図形の開始位置(X軸)|
+|TopY|必須|1|描画する図形の開始位置(Y軸)|
+|BtmX|必須|1|描画する図形の終了位置(X軸)|
+|BtmY|必須|1|描画する図形の終了位置(Y軸)|
+|Width |必須|0|プログラムで使用するパラメータ。`0`を設定|
+|Height|必須|0|プログラムで使用するパラメータ。`0`を設定|
+
+### AWS-Diagram_02 : JSONデータの作成規則 : TYPE:LINEの設定方法
+
+|パラメータ||設定例||
+|---|---|---|---|
+|TYPE|必須|LINE|-|
+|OBJECT|必須|connect-011|LINE名。LINE-GRPでグループ化するために設定。JSONファイル内で一意の値にする。|
+|LINE|必須|[OBJ-600,OBJ-200]|線をつなぐ図形のIDを設定。`[{{図形ID}},{{図形ID}},{{図形ID}}]`のように記載する|
+
+
+### AWS-Diagram_02 : JSONデータの作成規則 : TYPE:LINE-GRPの設定方法
+
+|パラメータ||設定例||
+|---|---|---|---|
+|TYPE|必須|LINE-GRP|-|
+|LAVEL|必須|接続②|接続線グループ名称。構成図を生成した際に表示。|
+|STROKE|必須|#bafab0|線の色|
+|LINES|必須|[connect-011,connect-012]|グループに属するLINE名を設定。`[{{LINE名}},{{LINE名}},{{LINE名}}]`|
+
+
+
+
