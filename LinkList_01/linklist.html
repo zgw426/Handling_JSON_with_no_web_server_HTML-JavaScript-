@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>リンクリスト</title>
+  <script src="links_01.json.js"></script>
+  <script src="links_02.json.js"></script>
+  <script src="links_03.json.js"></script>
+<script>
+let list = [];
+let listinfo = [];
+let b1key  = new Array(); // list02_infoの情報
+let c1key  = new Array(); // categoryの情報
+let iptkey = new Array(); // 検索欄の情報
+
+// 読み込むjsonを変数 list に追加
+function set_List(){
+  list.length = 0;
+  if( b1key.length == 0 ){
+    list = list.concat(list01);
+    list = list.concat(list02);
+    list = list.concat(list03);
+    listinfo = listinfo.concat(list01_info);
+    listinfo = listinfo.concat(list02_info);
+    listinfo = listinfo.concat(list03_info);
+  }else{
+    for (let i = 0; i < b1key.length; i++) {
+      if(list01_info[0]["ID"] == b1key[i]){ list = list.concat(list01); }
+      if(list02_info[0]["ID"] == b1key[i]){ list = list.concat(list02); }
+      if(list03_info[0]["ID"] == b1key[i]){ list = list.concat(list03); }      
+    }
+  }
+}
+
+function set_Initial(){
+  list.length = b1key.length = c1key.length = iptkey.length = 0;
+}
+</script>
+<style>
+html { height: 100%; }
+body { height: 100%; margin: 0; }
+main {
+    height: calc(100% - 60px);
+    -js-display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0px;
+}
+div.areaA {
+  padding : 0px;
+  width: calc(100%);
+  height: 30px;
+  margin: 0px;
+  overflow: hidden;
+  background-color: #D3D3D3;
+}
+main div.areaB {
+    width: calc(20% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
+    overflow-x: hidden;
+    background-color: #D3D3D3;
+}
+main div.areaC {
+    width: calc(20% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
+    overflow-x: hidden;
+    background-color: #FFFFFF;
+}
+main div.areaD {
+    width: calc(60% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
+    overflow-x: hidden;
+    background-color: #D3D3D3;
+}
+div.area100 {
+    width:  calc(100%);
+    height: 30px;
+    margin: 0px;
+    overflow: hidden;
+    background-color: #D3D3D3;
+}
+.div_f1{
+    padding : 5px;
+    margin-top : 5px;
+    margin-left : 5px;
+    margin-right : 5px;
+    text-align : left;
+    background-color : #ffffff;
+    cursor : pointer;
+    border : solid 1px;
+    float : none;
+    cursor: pointer;
+}
+.div_f2{
+    padding : 5px;
+    margin-top : 5px;
+    margin-left : 5px;
+    text-align : center;
+    background-color : #ffffff;
+    cursor : pointer;
+    border : solid 1px;
+    float : left;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="areaA">
+  <input type="text" id="inputKey" size="50"> 
+  <input type="button" value="検索" onclick="selectEventFlow();" />
+  　<input type="button" value="リセット" onclick="pageReload();" />
+</div>
+<main>
+  <div class="areaB" id="areaB">※list単位※</div>
+  <div class="areaC" id="areaC">※category※</div>
+  <div class="areaD" id="areaD">※リンク※</div>
+</main>
+<div class="area100" id="area100"></div>
+<script>
+function pageReload(){ // ページ再読み込み
+  window.location.reload();
+}
+
+
+
+function showAreaB()
+{
+    let wStr = "";
+    wStr += "<form name='areaB'>";
+    for(lp0=0; lp0<listinfo.length; lp0++){
+        wStr += "<label>";
+        wStr += "<div class='div_f1'>";
+        wStr += "<input type='checkbox' name='areaB1' value='" + listinfo[lp0]["ID"] + "' onclick='selectEventFlow(this.name, this.value)' checked>" + listinfo[lp0]["Title"];
+        wStr += "</div>";
+        wStr += "</label>";
+    }
+    wStr += "</form>";
+    document.getElementById("areaB").innerHTML = wStr;
+}
+
+function showAreaC(){
+  let words = new Array();
+  let wdcount = {};
+  let wStr = "";
+  for(lpa=0; lpa<list.length; lpa++){
+    for(lpf=0; lpf<list[lpa]["category"].length; lpf++){
+      words.push(list[lpa]["category"][lpf]);
+    }
+    for (let i = 0; i < words.length; i++) {
+      let elm = words[i];
+      wdcount[elm] = (wdcount[elm] || 0) + 1;
+    }
+  }
+
+  // キーと値にそれぞれキーをつけた連想配列を格納した配列の作成
+  arr = Object.keys(wdcount).map((e)=>({key:e,value:wdcount[e]}))
+
+  /////////////////////////////////////////////////////////
+  // カウント降順
+  arr.sort(function(a,b){
+    if(a.value < b.value) return 1;
+    if(a.value > b.value) return -1;
+      return 0;
+  });
+
+  wStr += "<form name='areaC'>";
+  for(let o in arr){
+      wStr += "<label>";
+      wStr += "<div class='div_f2'>";
+      wStr += "<input type='checkbox' name='areaC1' value='" + arr[o].key + "' onclick='selectEventFlow()'>" + arr[o].key;
+      wStr += "</div>";
+      wStr += "</label>";
+  }
+  wStr += "</form>";
+  document.getElementById("areaC").innerHTML = wStr;
+}
+
+function setSelectFlg(tgtName, tgtUrl, tgtCategory, tgtNote){
+  let rtn = ctn = 0;
+  let tgtStr = tgtName + "," + tgtCategory + "," + tgtNote;
+  let rFlg = new Array();
+
+  // rFlg 初期化
+  rFlg.length = 0;
+  for (let i = 0; i < c1key.length; i++) {
+    rFlg[i] = 0;
+  }
+
+  for (let i = 0; i < c1key.length; i++) {
+    rtn = 0;
+    if( tgtStr.indexOf( c1key[i] ) != -1 ){
+      rtn += 1;
+    }
+    rFlg[i] = rtn;
+  } // ------ for (let i = 0; i < c1key.length; i++)
+
+  // AND検索
+  ctn = 1;
+  for (let i = 0; i < rFlg.length; i++) {
+    ctn *= rFlg[i];
+  }
+  return(ctn);
+}
+
+function showAreaD()
+{
+  let wStr = "";
+  let sFlg = 1;
+  document.getElementById("areaD").innerHTML = "";
+  for(lp0=0; lp0<list.length; lp0++){
+      sFlg = setSelectFlg( list[lp0]["Name"], list[lp0]["URL"], String(list[lp0]["category"]), list[lp0]["note"] );
+      if(sFlg == 1)
+      {
+        wStr += "<div class='div_f1'>";
+        wStr += "<a href='"+ list[lp0]["URL"] +"' target='blank'>";
+        wStr += list[lp0]["Name"];
+        wStr += "</a><BR />";
+        wStr += list[lp0]["note"] + "<BR />";
+        wStr += list[lp0]["category"];
+        wStr += "</div>";
+      }
+  }
+  if(wStr.length <= 0) wStr = "ヒット 0 件";
+  document.getElementById("areaD").innerHTML = wStr;
+}
+
+function set_C1key_B1key(){
+  const areaB1 = [];
+  const areaB  = document.areaB.areaB1;
+  const areaC1 = [];
+  const areaC  = document.areaC.areaC1;
+
+  for (let i = 0; i < areaB.length; i++) {
+    if (areaB[i].checked) {
+      areaB1.push(areaB[i].value);
+    }
+  }
+  b1key = b1key.concat(areaB1);
+
+  // 検索欄の文字列をc1keyに格納する
+  keyStr = document.getElementById("inputKey").value;
+  if(keyStr.length > 0)
+  {
+    keyStr = keyStr.replace(/　/g, ' ');  // 全角空白→半角空白
+    keyStr = keyStr.replace(/,/g, ' ');   // , (コロン)→半角空白
+    keyStr = keyStr.replace(/\\/g, ' ');  // ￥ →半角空白
+    iptkey = keyStr.split(" ");           // 検索欄の文字列を半角空白で分割し配列に格納
+    c1key.length = 0;
+    for (let i = 0; i < iptkey.length; i++) {
+      c1key.push(iptkey[i]);
+    }
+  }
+
+  for (let i = 0; i < areaC.length; i++) {
+    if (areaC[i].checked) {
+      areaC1.push(areaC[i].value);
+    }
+  }
+  c1key = c1key.concat(areaC1);
+}
+
+// チェックボックスの選択時の処理フロー
+function selectEventFlow()
+{
+  set_Initial();      // 変数を初期化
+  set_C1key_B1key(); // b1key c1key を設定
+  set_List();        // b1key をもとに list を設定
+  showAreaD();       // サイト一覧を表示
+}
+
+//-----------------------------------
+// ROOTフロー
+set_List();
+showAreaB();
+showAreaC();
+showAreaD();
+</script>
+</body>
+</html>
